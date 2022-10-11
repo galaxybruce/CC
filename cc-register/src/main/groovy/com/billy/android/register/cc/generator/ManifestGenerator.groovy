@@ -1,10 +1,10 @@
 package com.billy.android.register.cc.generator
 
 import com.android.build.gradle.AppExtension
-import com.android.builder.model.Version
 import com.billy.android.register.RegisterPlugin
-import groovy.util.slurpersupport.GPathResult
 import groovy.xml.MarkupBuilder
+import groovy.xml.XmlSlurper
+import groovy.xml.slurpersupport.GPathResult
 import org.gradle.api.Project
 import org.gradle.util.GradleVersion
 
@@ -30,10 +30,10 @@ class ManifestGenerator {
     static void generateManifestFileContent(Project project, ArrayList<String> excludeProcessNames) {
         def android = project.extensions.getByType(AppExtension)
         android.applicationVariants.all { variant ->
-            String pkgName = [variant.mergedFlavor.applicationId, variant.mergedFlavor.applicationIdSuffix, variant.buildType.applicationIdSuffix].findAll().join()
+            String pkgName = [variant.applicationId, variant.mergedFlavor.applicationIdSuffix, variant.buildType.applicationIdSuffix].findAll().join()
             variant.outputs.each { output ->
                 def processManifest = null
-                def gradlePluginAfter_3_3_0 = GradleVersion.version(Version.ANDROID_GRADLE_PLUGIN_VERSION) >= GradleVersion.version('3.3.0')
+                def gradlePluginAfter_3_3_0 = GradleVersion.current() >= GradleVersion.version('3.3.0')
                 //fix warning:
                 //  WARNING: API 'variantOutput.getProcessManifest()' is obsolete and has
                 //  been replaced with 'variantOutput.getProcessManifestProvider()'.
