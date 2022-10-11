@@ -1,40 +1,16 @@
 apply plugin: 'groovy'
 
-
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:7.2.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-codec:commons-codec:1.10'
 }
 
 repositories {
     mavenCentral()
 }
-dependencies {
-    compile 'com.android.tools.build:gradle:2.2.0'
-}
 
-ext {
-    bintrayRepo = 'android'
-    bintrayName = 'cc-register'
-
-    publishedGroupId = 'com.billy.android'
-    libraryName = 'CcRegister'
-    artifact = 'cc-register'
-
-    libraryDescription = 'android component caller'
-
-    siteUrl = 'https://github.com/luckybilly/CC'
-    gitUrl = 'https://github.com/luckybilly/CC.git'
-
-    libraryVersion = '1.1.2'
-
-    developerId = 'billy'
-    developerName = 'billy'
-    developerEmail = 'okkanan@hotmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
-apply from: rootProject.file('bintray.gradle')
+apply from: rootProject.file('gradle/publish.gradle')

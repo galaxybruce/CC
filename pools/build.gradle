@@ -2,17 +2,16 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.compileVersion
-    buildToolsVersion rootProject.buildVersion
 
     defaultConfig {
         minSdkVersion rootProject.minVersion
-        targetSdkVersion rootProject.compileVersion
+        targetSdkVersion rootProject.targetSdkVersion
     }
 }
 
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 ext {
     bintrayRepo = 'android'

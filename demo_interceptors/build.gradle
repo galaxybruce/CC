@@ -3,11 +3,10 @@ apply from: rootProject.file('cc-settings-demo.gradle')
 
 android {
     compileSdkVersion rootProject.compileVersion
-    buildToolsVersion rootProject.buildVersion
 
     defaultConfig {
         minSdkVersion rootProject.demoMinSdkVersion
-        targetSdkVersion rootProject.compileVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }

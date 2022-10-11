@@ -3,11 +3,10 @@ apply from: rootProject.file('cc-settings-demo.gradle')
 
 android {
     compileSdkVersion rootProject.compileVersion
-    buildToolsVersion rootProject.buildVersion
 
     defaultConfig {
         minSdkVersion rootProject.demoMinSdkVersion // support v7(28.0.0) minSdkVersion is 14
-        targetSdkVersion rootProject.compileVersion
+        targetSdkVersion rootProject.targetSdkVersion
         applicationId "com.billy.cc.demo"
         versionCode 1
         versionName "1.0"
@@ -44,7 +43,7 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:${rootProject.supportVersion}"
+    implementation 'androidx.appcompat:appcompat:1.3.0-beta01'
     implementation 'com.google.android:flexbox:0.3.0'
 
     //Notice:组件之间不要互相依赖，只在主app module依赖其它组件
