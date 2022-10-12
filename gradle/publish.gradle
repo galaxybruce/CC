@@ -40,15 +40,6 @@ def isAndroid = project.hasProperty("android") ||
         project.getPlugins().hasPlugin('com.android.application') ||
         project.getPlugins().hasPlugin('com.android.library')
 if (isAndroid) {
-    android {
-        publishing {
-            singleVariant('release') {
-                withSourcesJar()
-                withJavadocJar()
-            }
-        }
-    }
-
     task androidJavadocs(type: Javadoc) {
         source = android.sourceSets.main.java.source
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
