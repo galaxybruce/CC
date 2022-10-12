@@ -21,7 +21,7 @@ class RegisterTransform extends Transform {
 
 
     Project project
-    RegisterExtension extension;
+    RegisterExtension extension
     def cacheEnabled
     def isAllScan = false
     Map<String, ScanHarvest> cacheMap = null

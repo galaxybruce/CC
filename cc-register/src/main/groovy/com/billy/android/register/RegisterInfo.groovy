@@ -12,8 +12,9 @@ class RegisterInfo {
     public static final String PARAM_TYPE_CLASS_NAME = 'string'
 
     static final DEFAULT_EXCLUDE = [
-            '.*/R(\\$[^/]*)?'
-            , '.*/BuildConfig$'
+            '.*/R(\\$[^/]*)?',
+            '.*/BR(\\$[^/]*)?',
+            '.*/BuildConfig$'
     ]
     //以下是可配置参数
     String interfaceName = ''

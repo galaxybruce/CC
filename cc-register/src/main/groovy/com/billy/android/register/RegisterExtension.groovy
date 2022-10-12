@@ -20,7 +20,8 @@ class RegisterExtension {
     def multiProcessEnabled = false
     ArrayList<String> excludeProcessNames = []
 
-    RegisterExtension() {}
+    RegisterExtension() {
+    }
 
     void convertConfig() {
         registerInfo.each { map ->
@@ -48,7 +49,6 @@ class RegisterExtension {
             else {
                 project.logger.error(PLUGIN_NAME + ' extension error: scanInterface, codeInsertToClassName and registerMethodName should not be null\n' + info.toString())
             }
-
         }
 
         if (cacheEnabled) {

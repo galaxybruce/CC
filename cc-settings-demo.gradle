@@ -6,6 +6,11 @@
 //      2. 全局拦截器的依赖
 //
 //-----------------------------------------------------------
+if(project.ext.has('mainApp') && project.ext.mainApp) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
 
 project.apply plugin: 'cc-register'
 project.dependencies.add('api', project(':cc')) //用最新版
