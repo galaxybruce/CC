@@ -1,7 +1,7 @@
 package com.billy.android.register.cc.generator
 
 import com.android.build.gradle.AppExtension
-import com.android.builder.model.Version
+import com.android.Version
 import com.billy.android.register.RegisterPlugin
 import groovy.xml.MarkupBuilder
 import groovy.xml.XmlSlurper
