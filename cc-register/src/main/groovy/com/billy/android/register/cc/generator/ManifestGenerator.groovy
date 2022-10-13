@@ -1,6 +1,7 @@
 package com.billy.android.register.cc.generator
 
 import com.android.build.gradle.AppExtension
+import com.android.Version
 import com.billy.android.register.RegisterPlugin
 import groovy.xml.MarkupBuilder
 import groovy.xml.XmlSlurper
@@ -33,7 +34,7 @@ class ManifestGenerator {
             String pkgName = [variant.applicationId, variant.mergedFlavor.applicationIdSuffix, variant.buildType.applicationIdSuffix].findAll().join()
             variant.outputs.each { output ->
                 def processManifest = null
-                def gradlePluginAfter_3_3_0 = GradleVersion.current() >= GradleVersion.version('3.3.0')
+                def gradlePluginAfter_3_3_0 = GradleVersion.version(Version.ANDROID_GRADLE_PLUGIN_VERSION) >= GradleVersion.version('3.3.0')
                 //fix warning:
                 //  WARNING: API 'variantOutput.getProcessManifest()' is obsolete and has
                 //  been replaced with 'variantOutput.getProcessManifestProvider()'.

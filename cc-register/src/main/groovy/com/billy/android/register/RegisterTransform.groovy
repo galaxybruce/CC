@@ -2,7 +2,7 @@ package com.billy.android.register
 
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.android.builder.model.Version
+import com.android.Version
 import com.billy.android.register.cc.generator.ManifestGenerator
 import com.billy.android.register.cc.generator.ProviderGenerator
 import com.billy.android.register.cc.generator.RegistryCodeGenerator
