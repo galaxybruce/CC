@@ -6,7 +6,10 @@ import android.text.TextUtils;
 
 import com.billy.cc.core.component.annotation.AllProcess;
 import com.billy.cc.core.component.annotation.SubProcess;
+import com.billy.cc.core.component.register.CCRegisterUtil;
+import com.billy.cc.core.component.register.ICCRegister;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -52,6 +55,16 @@ class ComponentManager {
         //生成的代码如下:
         //registerComponent(new ComponentA());
         //registerComponent(new ComponentAA());
+
+        List<ICCRegister> registerList = CCRegisterUtil.getRegisterInfo(CC.getApplication().getApplicationContext());
+        for (ICCRegister ccRegister : registerList) {
+            List<IComponent> components = ccRegister.getComponents();
+            if(components != null && !components.isEmpty()) {
+                for (IComponent component : components) {
+                    registerComponent(component);
+                }
+            }
+        }
     }
 
     /**

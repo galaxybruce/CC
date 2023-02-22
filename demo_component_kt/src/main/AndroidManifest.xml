@@ -3,6 +3,11 @@
     package="com.billy.cc.demo.component.kt">
 
     <application>
+        <meta-data
+            android:name="com.galaxybruce.component.interface.${MODULE_NAME}"
+            android:value="com.billy.cc.demo.component.kt.register.DemoComponentKtCCRegister"/>
+
+
         <activity android:name=".MainActivity" />
     </application>
 

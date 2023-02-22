@@ -1,1 +1,11 @@
-<manifest package="com.billy.cc.demo.interceptors" />
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.billy.cc.demo.interceptors">
+
+    <application>
+        <meta-data
+            android:name="com.galaxybruce.component.interface.${MODULE_NAME}"
+            android:value="com.billy.cc.demo.interceptors.register.DemoComponentInterceptorCCRegister"/>
+    </application>
+
+</manifest>

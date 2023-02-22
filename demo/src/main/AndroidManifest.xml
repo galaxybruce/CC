@@ -9,6 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.galaxybruce.component.interface.${MODULE_NAME}"
+            android:value="com.billy.cc.demo.register.DemoCCRegister"/>
+
         <activity android:name="com.billy.cc.demo.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

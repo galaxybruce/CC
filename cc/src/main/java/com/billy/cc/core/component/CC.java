@@ -548,7 +548,7 @@ public class CC {
         if (fragment == null) {
             return;
         }
-        FragmentManager manager = fragment.getFragmentManager();
+        FragmentManager manager = fragment.getParentFragmentManager();
         if (manager != null) {
             manager.registerFragmentLifecycleCallbacks(
                     new CCMonitor.FragmentMonitor(this)

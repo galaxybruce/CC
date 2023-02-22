@@ -1,5 +1,9 @@
 package com.billy.cc.core.component;
 
+import com.billy.cc.core.component.register.CCRegisterUtil;
+import com.billy.cc.core.component.register.ICCRegister;
+
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -14,11 +18,21 @@ class GlobalCCInterceptorManager {
       加载类时自动调用初始化：注册所有全局拦截器 (实现 IGlobalCCInterceptor 接口的类)
       通过auto-register插件生成拦截器注册代码
       生成的代码如下:
+     */
       static {
-          registerGlobalInterceptor(new InterceptorA());
-          registerGlobalInterceptor(new InterceptorB());
+//          registerGlobalInterceptor(new InterceptorA());
+//          registerGlobalInterceptor(new InterceptorB());
+
+        List<ICCRegister> registerList = CCRegisterUtil.getRegisterInfo(CC.getApplication().getApplicationContext());
+        for (ICCRegister ccRegister : registerList) {
+            List<IGlobalCCInterceptor> interceptors = ccRegister.getGlobalCCInterceptors();
+            if(interceptors != null && !interceptors.isEmpty()) {
+                for (IGlobalCCInterceptor interceptor : interceptors) {
+                    registerGlobalInterceptor(interceptor);
+                }
+            }
+        }
       }
-    */
 
     /**
      * 提前初始化所有全局拦截器
@@ -49,7 +63,7 @@ class GlobalCCInterceptorManager {
                         index++;
                     }
                 }
-                INTERCEPTORS.add(index,interceptor);
+                INTERCEPTORS.add(index, interceptor);
             }
             if (CC.DEBUG) {
                 CC.log("register global interceptor success! priority = "

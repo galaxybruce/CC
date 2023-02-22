@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.SystemClock;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -148,7 +150,7 @@ class CCMonitor {
         }
 
         @Override
-        public void onFragmentDestroyed(FragmentManager fm, Fragment f) {
+        public void onFragmentDestroyed(@NonNull FragmentManager fm, @NonNull Fragment f) {
             if (reference != null) {
                 CC cc = reference.get();
                 if (cc != null && !cc.isFinished()) {

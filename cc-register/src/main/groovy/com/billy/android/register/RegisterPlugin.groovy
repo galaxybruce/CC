@@ -35,6 +35,23 @@ public class RegisterPlugin implements Plugin<Project> {
 //                }
 //            }
 //        }
+
+        // 插件只是去掉了字节码插桩自动注册功能，改成半自动注册。如果想改回去，把上面的代码放开，这段代码注释即可
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // 半自动注册使用方法：
+        //  1. 需要注册的组件的module/build.gradle中添加
+        //        manifestPlaceholders = [
+        //                "MODULE_NAME"                  : "${project.getName()}"
+        //        ]
+        //  2. 创建模块内注册类：
+        //  如demo中的com.billy.cc.demo.register.DemoCCRegister
+        //  3. 在module/AndroidManifest.xml中把第二步创建的类注册到meta-data中
+        //  key都是一样的
+        //  <meta-data
+        //    android:name="com.galaxybruce.component.interface.${MODULE_NAME}"
+        //    android:value="com.billy.cc.demo.register.DemoCCRegister"/>
+        //
+        ////////////////////////////////////////////////////////////////////////////////////////////
         if(isApp) {
             project.afterEvaluate {
                 RegisterExtension extension = project.extensions.findByName(EXT_NAME) as RegisterExtension

@@ -4,7 +4,16 @@ import com.billy.cc.core.component.CC;
 import com.billy.cc.core.component.CCResult;
 import com.billy.cc.core.component.IComponent;
 import com.billy.cc.core.component.IMainThread;
+import com.billy.cc.demo.component.b.processor.CheckAndLoginProcessor;
+import com.billy.cc.demo.component.b.processor.GetDataProcessor;
+import com.billy.cc.demo.component.b.processor.GetLoginUserProcessor;
+import com.billy.cc.demo.component.b.processor.GetNetworkDataProcessor;
 import com.billy.cc.demo.component.b.processor.IActionProcessor;
+import com.billy.cc.demo.component.b.processor.LoginObserverAddProcessor;
+import com.billy.cc.demo.component.b.processor.LoginObserverRemoveProcessor;
+import com.billy.cc.demo.component.b.processor.LoginProcessor;
+import com.billy.cc.demo.component.b.processor.LogoutProcessor;
+import com.billy.cc.demo.component.b.processor.ShowActivityProcessor;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,10 +45,22 @@ public class ComponentB implements IComponent, IMainThread {
     private final HashMap<String, IActionProcessor> map = new HashMap<>(4);
 
     private void initProcessors() {
+        // 如果是采用字节码插桩的方式，这里应该是自动注册进来的，不用手动写
+        add(new CheckAndLoginProcessor());
+        add(new GetDataProcessor());
+        add(new GetLoginUserProcessor());
+        add(new GetNetworkDataProcessor());
+        add(new LoginObserverAddProcessor());
+        add(new LoginObserverRemoveProcessor());
+        add(new LoginProcessor());
+        add(new LogoutProcessor());
+        add(new ShowActivityProcessor());
     }
 
     private void add(IActionProcessor processor) {
-        map.put(processor.getActionName(), processor);
+        if(!map.containsKey(processor.getActionName())) {
+            map.put(processor.getActionName(), processor);
+        }
     }
 
     @Override

@@ -2,6 +2,10 @@
     package="com.billy.cc.demo.component.b" >
 
     <application>
+        <meta-data
+            android:name="com.galaxybruce.component.interface.${MODULE_NAME}"
+            android:value="com.billy.cc.demo.component.b.register.DemoComponentBCCRegister"/>
+
         <activity android:name="com.billy.cc.demo.component.b.ActivityB" />
         <activity android:name="com.billy.cc.demo.component.b.LoginActivity"/>
     </application>

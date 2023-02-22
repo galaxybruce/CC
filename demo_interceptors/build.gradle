@@ -9,6 +9,11 @@ android {
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        // 每个module可以单独设置manifestPlaceholders
+        manifestPlaceholders = [
+                "MODULE_NAME"                  : "${project.getName()}"
+        ]
     }
 
     buildTypes {

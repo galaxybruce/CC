@@ -31,7 +31,7 @@ import static com.billy.cc.core.component.CCUtil.put;
 @SuppressWarnings("unchecked")
 public class RemoteParamUtil {
 
-    static IParamJsonConverter paramJsonConverter;
+    static IParamJsonConverter paramJsonConverter = new GsonParamConverter();
 
     static void initRemoteCCParamJsonConverter(IParamJsonConverter converter) {
         paramJsonConverter = converter;

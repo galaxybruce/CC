@@ -2,6 +2,11 @@
     package="com.billy.cc.demo.component.jsbridge">
 
     <application>
+        <meta-data
+            android:name="com.galaxybruce.component.interface.${MODULE_NAME}"
+            android:value="com.billy.cc.demo.component.jsbridge.register.DemoComponentJsbridgeCCRegister"/>
+
+
         <activity android:name=".WebActivity" android:process=":web" />
     </application>
 </manifest>
