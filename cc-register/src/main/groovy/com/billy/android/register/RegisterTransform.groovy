@@ -143,14 +143,16 @@ class RegisterTransform extends Transform {
             }
         }
         project.logger.error("${PLUGIN_NAME} insert code cost time: " + (System.currentTimeMillis() - scanFinishTime) + " ms")
-        if (extension.multiProcessEnabled && classFolder) {
-            def processNames = ManifestGenerator.getCachedProcessNames(project.name, context.variantName)
-            processNames.each { processName ->
-                if (processName) {
-                    ProviderGenerator.generateProvider(processName, classFolder)
-                }
-            }
-        }
+        // 生成文件和直接码插桩没关系，没必要放在这儿，只要能获取到class的输入目录就行可以写class文件
+        // 代码已移到ManifestGenerator.generateManifestFileContent()方法中
+//        if (extension.multiProcessEnabled && classFolder) {
+//            def processNames = ManifestGenerator.getCachedProcessNames(project.name, context.variantName)
+//            processNames.each { processName ->
+//                if (processName) {
+//                    ProviderGenerator.generateProvider(processName, classFolder)
+//                }
+//            }
+//        }
         def finishTime = System.currentTimeMillis()
         project.logger.error("${PLUGIN_NAME} cost time: " + (finishTime - time) + " ms")
     }

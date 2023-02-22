@@ -1,7 +1,7 @@
 package com.billy.android.register.cc.generator
 
-import com.android.build.gradle.AppExtension
 import com.android.Version
+import com.android.build.gradle.AppExtension
 import com.billy.android.register.RegisterPlugin
 import groovy.xml.MarkupBuilder
 import groovy.xml.XmlSlurper
@@ -62,6 +62,9 @@ class ManifestGenerator {
                             def manifest = new XmlSlurper().parse(manifestFile)
                             if (!pkgName) pkgName = manifest.'@package'
                             HashSet<String> processNames = getAllManifestedProcessNames(manifest)
+                            processNames.forEach {
+                                println "${RegisterPlugin.PLUGIN_NAME} find process in manifest: $it"
+                            }
                             processNames.removeAll(excludeProcessNames)
                             if (!processNames.empty) {
                                 writeProvidersIntoManifestFile(pkgName, manifestFile, processNames)
@@ -69,6 +72,17 @@ class ManifestGenerator {
                             //将processManifestTask执行后扫描出的子进程名称缓存起来给transform使用
                             cacheProcessNames(project.name, variant.name, processNames)
                         }
+                    }
+                }
+            }
+
+            // 获取class路径，并在该路径下写入CC_Provider_进程名称.class
+            variant.getJavaCompileProvider().get().doLast {
+                def classFolder = it.destinationDir
+                def processNames = getCachedProcessNames(project.name, variant.name)
+                processNames.each { processName ->
+                    if (processName) {
+                        ProviderGenerator.generateProvider(processName, classFolder)
                     }
                 }
             }

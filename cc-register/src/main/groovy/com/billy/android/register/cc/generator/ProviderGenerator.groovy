@@ -26,6 +26,18 @@ class ProviderGenerator implements Opcodes {
      * 生成RemoteProvider的子类
      * @param className 子类名称（根据
      * @param dir
+     *
+     * public class CC_Provider_web extends RemoteProvider {
+     *      public CC_Provider_web() {
+     *      }
+     * }
+     *
+     * <provider
+     *  android:name="com.billy.cc.core.providers.CC_Provider_web"
+     *  android:exported="true"
+     *  android:process=":web"
+     *  android:authorities="com.billy.cc.demo:web.com.billy.cc.core.remote" />
+     *
      */
     static void generateProvider(String processName, File dir) {
         String className = getSubProcessProviderClassName(processName)
