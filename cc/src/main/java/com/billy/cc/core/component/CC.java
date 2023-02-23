@@ -10,7 +10,7 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.billy.android.pools.ObjPool;
+import com.billy.cc.core.component.util.ObjPool;
 
 import org.json.JSONObject;
 

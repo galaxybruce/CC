@@ -30,7 +30,7 @@ android {
 
 dependencies {
     //发布到bintray时，要写成compile才行
-    api "com.billy.android:pools:0.0.6"
+//    api "com.billy.android:pools:0.0.6"
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.3.0'
     compileOnly 'androidx.appcompat:appcompat:1.4.2'
