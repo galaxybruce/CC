@@ -60,7 +60,8 @@ public class LifecycleActivity extends AppCompatActivity implements View.OnClick
             case R.id.start_cc:
                 CC.obtainBuilder("ComponentB")
                         .setActionName("getNetworkData")
-                        .cancelOnDestroyWith(this)
+//                        .cancelOnDestroyWith(this)
+                        .cancelOnDestroy(LifecycleActivity.this)
                         .build()
                         .callAsyncCallbackOnMainThread(printResultCallback);
                 break;

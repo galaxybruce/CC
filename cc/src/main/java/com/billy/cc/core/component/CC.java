@@ -7,8 +7,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Looper;
 import android.os.SystemClock;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -23,6 +21,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 
 import static com.billy.cc.core.component.CCUtil.put;
 import static com.billy.cc.core.component.ComponentManager.ACTION_REGISTER;
@@ -61,9 +65,19 @@ public class CC {
 
     private static Application application;
 
+    /**
+     * 请使用{@link #lifecycleOwner}
+     */
+    @Deprecated
     WeakReference<Activity> cancelOnDestroyActivity;
 
+    /**
+     * 请使用{@link #lifecycleOwner}
+     */
+    @Deprecated
     WeakReference<Fragment> cancelOnDestroyFragment;
+
+    WeakReference<LifecycleOwner> lifecycleOwner;
 
     private volatile boolean waiting;
 
@@ -288,7 +302,9 @@ public class CC {
          * 设置activity.onDestroy时自动cancel
          * @param activity 监控此activity的生命周期，在onDestroy方法被调用后若cc未执行完则自动cancel
          * @return Builder自身
+         * @deprecated 请使用 {@link #cancelOnDestroy(LifecycleOwner)}
          */
+        @Deprecated
         public Builder cancelOnDestroyWith(Activity activity) {
             if (activity != null) {
                 cr.cancelOnDestroyActivity = new WeakReference<>(activity);
@@ -300,10 +316,19 @@ public class CC {
          * 设置fragment.onDestroy时自动cancel
          * @param fragment 监控此fragment的生命周期，在onDestroy方法被调用后若cc未执行完则自动cancel
          * @return Builder自身
+         * @deprecated 请使用 {@link #cancelOnDestroy(LifecycleOwner)}
          */
+        @Deprecated
         public Builder cancelOnDestroyWith(Fragment fragment) {
             if (fragment != null) {
                 cr.cancelOnDestroyFragment = new WeakReference<>(fragment);
+            }
+            return this;
+        }
+
+        public Builder cancelOnDestroy(LifecycleOwner lifecycleOwner){
+            if (lifecycleOwner != null) {
+                cr.lifecycleOwner = new WeakReference<>(lifecycleOwner);
             }
             return this;
         }
@@ -532,6 +557,8 @@ public class CC {
      * 在onDestroy后，自动cancel
      */
     void cancelOnDestroy(Object reason) {
+        // onDestroy中取消不需要回调
+        callback = null;
         if (!isFinished()) {
             if (VERBOSE_LOG) {
                 verboseLog(callId, "call cancel on " + reason + " destroyed");
@@ -554,6 +581,24 @@ public class CC {
                     new CCMonitor.FragmentMonitor(this)
                     , false);
         }
+    }
+
+    void addCancelOnLifecycleDestroyIfSet() {
+        if(this.lifecycleOwner == null) {
+            return;
+        }
+        LifecycleOwner lifecycleOwner = this.lifecycleOwner.get();
+        if(lifecycleOwner == null) {
+            return;
+        }
+        lifecycleOwner.getLifecycle().addObserver(new DefaultLifecycleObserver() {
+            @Override
+            public void onDestroy(@NonNull LifecycleOwner owner) {
+                if (!isFinished()) {
+                    cancelOnDestroy(lifecycleOwner);
+                }
+            }
+        });
     }
 
     public String getComponentName() {

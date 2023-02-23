@@ -181,6 +181,7 @@ class ComponentManager {
             if (CC.VERBOSE_LOG) {
                 CC.verboseLog(callId, "put into thread pool");
             }
+            cc.addCancelOnLifecycleDestroyIfSet();
             CC_THREAD_POOL.submit(processor);
             //异步调用时此方法返回null，CCResult通过callback回调
             return null;

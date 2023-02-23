@@ -62,7 +62,8 @@ public class LifecycleFragment extends Fragment {
         textView.setGravity(Gravity.CENTER);
         CC cc = CC.obtainBuilder("ComponentB")
                 .setActionName("getNetworkData")
-                .cancelOnDestroyWith(this)
+//                .cancelOnDestroyWith(this)
+                .cancelOnDestroy(this)
                 .build();
         cc.callAsyncCallbackOnMainThread(new IComponentCallback() {
                     @Override
