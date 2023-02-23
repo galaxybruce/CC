@@ -1,3 +1,7 @@
+/**
+ * 参考文章：[Android库发布到Maven Central全攻略](https://juejin.cn/post/6932485276124233735)
+ */
+
 apply plugin: "maven-publish"
 
 def localProperties = new Properties()
@@ -40,15 +44,15 @@ def isAndroid = project.hasProperty("android") ||
         project.getPlugins().hasPlugin('com.android.application') ||
         project.getPlugins().hasPlugin('com.android.library')
 if (isAndroid) {
-    task androidJavadocs(type: Javadoc) {
-        source = android.sourceSets.main.java.source
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    }
-
-    task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-        getArchiveClassifier().set('javadoc')
-        from androidJavadocs.destinationDir
-    }
+//    task androidJavadocs(type: Javadoc) {
+//        source = android.sourceSets.main.java.source
+//        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//    }
+//
+//    task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+//        getArchiveClassifier().set('javadoc')
+//        from androidJavadocs.destinationDir
+//    }
 
     task androidSourcesJar(type: Jar) {
         getArchiveClassifier().set('sources')
@@ -56,8 +60,8 @@ if (isAndroid) {
     }
 
     artifacts {
+//        archives androidJavadocsJar
         archives androidSourcesJar
-        archives androidJavadocsJar
     }
 } else {
     task sourceJar(type: Jar, dependsOn:classes) {
@@ -71,13 +75,13 @@ if (isAndroid) {
 //        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
 //    }
 
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        getArchiveClassifier().set('javadoc') // classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
+//    task javadocJar(type: Jar, dependsOn: javadoc) {
+//        getArchiveClassifier().set('javadoc') // classifier = 'javadoc'
+//        from javadoc.destinationDir
+//    }
 
     artifacts {
-        archives javadocJar
+//        archives javadocJar
         archives sourceJar
     }
 }
@@ -95,12 +99,12 @@ afterEvaluate {
                     from components.release
 
                     artifact androidSourcesJar
-                    artifact androidJavadocsJar
+//                    artifact androidJavadocsJar
                 } else {
                     from components.java
 
                     artifact sourceJar
-                    artifact javadocJar
+//                    artifact javadocJar
                 }
 
                 pom {
@@ -148,10 +152,10 @@ afterEvaluate {
             maven {
                 //  1:发布到MavenCentral 2:发布到内网maven 其他值:发布到repo-local
                 if(publishChannel == '1' || publishChannel == '2'){
-                    url = artifact_version.endsWith('SNAPSHOT') ? ext.snapshotUrl : ext.releasesUrl
+                    url = artifact_version.endsWith('SNAPSHOT') ? project.ext.snapshotUrl : project.ext.releasesUrl
                     credentials {
-                        username = ext.ossrhUsername
-                        password = ext.ossrhPassword
+                        username = project.ext.ossrhUsername
+                        password = project.ext.ossrhPassword
                     }
                     allowInsecureProtocol = true
                 } else {

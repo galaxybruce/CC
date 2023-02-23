@@ -1,6 +1,6 @@
 package com.billy.android.register
 
-
+import com.android.build.gradle.AppPlugin
 import com.billy.android.register.cc.DefaultRegistryHelper
 import com.billy.android.register.cc.ProjectModuleManager
 import com.billy.android.register.cc.generator.ManifestGenerator
@@ -21,7 +21,7 @@ public class RegisterPlugin implements Plugin<Project> {
     public void apply(Project project) {
         println "project(${project.name}) apply ${PLUGIN_NAME} plugin"
         project.extensions.create(EXT_NAME, RegisterExtension)
-        def isApp = ProjectModuleManager.manageModule(project)
+//        def isApp = ProjectModuleManager.manageModule(project)
 //        performBuildTypeCache(project, isApp)
 //        if (isApp) {
 //            println "project(${project.name}) register ${PLUGIN_NAME} transform"
@@ -52,6 +52,7 @@ public class RegisterPlugin implements Plugin<Project> {
         //    android:value="com.billy.cc.demo.register.DemoCCRegister"/>
         //
         ////////////////////////////////////////////////////////////////////////////////////////////
+        def isApp = ProjectModuleManager.manageModule(project) // 如果项目中使用了galaxybruce-pioneer插件，这里用这样的判断：project.plugins.hasPlugin(AppPlugin)
         if(isApp) {
             project.afterEvaluate {
                 RegisterExtension extension = project.extensions.findByName(EXT_NAME) as RegisterExtension
