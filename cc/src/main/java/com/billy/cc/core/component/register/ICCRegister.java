@@ -1,7 +1,6 @@
 package com.billy.cc.core.component.register;
 
 import com.billy.cc.core.component.IComponent;
-import com.billy.cc.core.component.IGlobalCCInterceptor;
 
 import java.util.List;
 
@@ -18,5 +17,4 @@ public interface ICCRegister {
 
    List<IComponent> getComponents();
 
-   List<IGlobalCCInterceptor> getGlobalCCInterceptors();
 }

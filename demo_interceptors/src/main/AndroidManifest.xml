@@ -3,9 +3,6 @@
     package="com.billy.cc.demo.interceptors">
 
     <application>
-        <meta-data
-            android:name="com.galaxybruce.component.interface.${MODULE_NAME}"
-            android:value="com.billy.cc.demo.interceptors.register.DemoComponentInterceptorCCRegister"/>
     </application>
 
 </manifest>
