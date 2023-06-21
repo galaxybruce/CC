@@ -31,6 +31,7 @@ class ManifestGenerator {
     static void generateManifestFileContent(Project project, ArrayList<String> excludeProcessNames) {
         def android = project.extensions.getByType(AppExtension)
         android.applicationVariants.all { variant ->
+            println "${RegisterPlugin.PLUGIN_NAME} variant name: ${variant.name}"
             String pkgName = [variant.applicationId, variant.mergedFlavor.applicationIdSuffix, variant.buildType.applicationIdSuffix].findAll().join()
             variant.outputs.each { output ->
                 def processManifest = null
@@ -47,30 +48,36 @@ class ManifestGenerator {
                 if(processManifest == null) {
                     processManifest = output.processManifest
                 }
+                def abi = output.getFilter("ABI")
+                println "${RegisterPlugin.PLUGIN_NAME} processManifest task: ${processManifest} for ${abi}"
                 processManifest.doLast {
                     processManifest.outputs.files.each { File file ->
+                        println "${RegisterPlugin.PLUGIN_NAME} processManifest file: ${file.absolutePath}"
                         //在gradle plugin 3.0.0之前，file是文件，且文件名为AndroidManifest.xml
                         //在gradle plugin 3.0.0之后，file是目录，AndroidManifest.xml文件在此目录下
-                        def manifestFile = null
+                        List<File> manifestFiles = new ArrayList<>()
                         if (file.name =="AndroidManifest.xml") {
-                            manifestFile = file
+                            manifestFiles.add(file)
                         } else if (file.isDirectory()) {
-                            manifestFile = new File(file, "AndroidManifest.xml")
+                            manifestFiles.add(new File(file, "AndroidManifest.xml"))
+                            manifestFiles.add(new File("${file.absolutePath}/${abi}/AndroidManifest.xml"))
                         }
-                        if (manifestFile && manifestFile.exists()) {
-                            println "${RegisterPlugin.PLUGIN_NAME} regist provider into:${manifestFile.absolutePath}"
-                            def manifest = new XmlSlurper().parse(manifestFile)
-                            if (!pkgName) pkgName = manifest.'@package'
-                            HashSet<String> processNames = getAllManifestedProcessNames(manifest)
-                            processNames.forEach {
-                                println "${RegisterPlugin.PLUGIN_NAME} find process in manifest: $it"
+                        for(manifestFile in manifestFiles) {
+                            if (manifestFile && manifestFile.exists()) {
+                                println "${RegisterPlugin.PLUGIN_NAME} regist provider into:${manifestFile.absolutePath}"
+                                def manifest = new XmlSlurper().parse(manifestFile)
+                                if (!pkgName) pkgName = manifest.'@package'
+                                HashSet<String> processNames = getAllManifestedProcessNames(manifest)
+                                processNames.forEach {
+                                    println "${RegisterPlugin.PLUGIN_NAME} find process in manifest: $it"
+                                }
+                                processNames.removeAll(excludeProcessNames)
+                                if (!processNames.empty) {
+                                    writeProvidersIntoManifestFile(pkgName, manifestFile, processNames)
+                                }
+                                //将processManifestTask执行后扫描出的子进程名称缓存起来给transform使用
+                                cacheProcessNames(project.name, variant.name, processNames)
                             }
-                            processNames.removeAll(excludeProcessNames)
-                            if (!processNames.empty) {
-                                writeProvidersIntoManifestFile(pkgName, manifestFile, processNames)
-                            }
-                            //将processManifestTask执行后扫描出的子进程名称缓存起来给transform使用
-                            cacheProcessNames(project.name, variant.name, processNames)
                         }
                     }
                 }

@@ -59,7 +59,7 @@ public class RegisterPlugin implements Plugin<Project> {
                 // 从"合并"后的AndroidManifest.xml中查找进程，并为每个进程创建CC_Provider_进程名称.class，
                 // 然后再将provider写入AndroidManifest.xml
                 if(extension.multiProcessEnabled) {
-                    ManifestGenerator.generateManifestFileContent(project, new ArrayList<String>())
+                    ManifestGenerator.generateManifestFileContent(project, extension.excludeProcessNames)
                 }
             }
         }
