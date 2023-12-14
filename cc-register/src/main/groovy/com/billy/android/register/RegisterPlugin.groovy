@@ -52,12 +52,14 @@ public class RegisterPlugin implements Plugin<Project> {
         //    android:value="com.billy.cc.demo.register.DemoCCRegister"/>
         //
         ////////////////////////////////////////////////////////////////////////////////////////////
-        def isApp = ProjectModuleManager.manageModule(project) // 如果项目中使用了galaxybruce-pioneer插件，这里用这样的判断：project.plugins.hasPlugin(AppPlugin)
+        def isApp = project.plugins.hasPlugin(AppPlugin) // 如果项目中使用了galaxybruce-pioneer插件，这里用这样的判断：project.plugins.hasPlugin(AppPlugin)
         if(isApp) {
             project.afterEvaluate {
                 RegisterExtension extension = project.extensions.findByName(EXT_NAME) as RegisterExtension
                 // 从"合并"后的AndroidManifest.xml中查找进程，并为每个进程创建CC_Provider_进程名称.class，
                 // 然后再将provider写入AndroidManifest.xml
+                // CC_fork/demo/build/intermediates/merged_manifests/debug/AndroidManifest.xml
+                // CC_fork/demo/build/intermediates/javac/debug/classes/com/billy/cc/core/providers/CC_Provider_web.class
                 if(extension.multiProcessEnabled) {
                     ManifestGenerator.generateManifestFileContent(project, extension.excludeProcessNames)
                 }

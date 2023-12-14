@@ -1,8 +1,9 @@
-package com.billy.cc.demo.component.b.register;
+package com.billy.cc.demo.component.jsbridge.register;
 
 import com.billy.cc.core.component.IComponent;
 import com.billy.cc.core.component.register.ICCRegister;
-import com.billy.cc.demo.component.b.ComponentB;
+import com.billy.cc.demo.component.jsbridge.JsBridgeComponent;
+import com.billy.cc.demo.component.jsbridge.WebComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +15,13 @@ import java.util.List;
  * <p>
  * modification history:
  */
-public class DemoComponentBRegister implements ICCRegister {
+public class DemoComponentJsbridgeCCRegister implements ICCRegister {
 
    @Override
    public List<IComponent> getComponents() {
-      List<IComponent> list = new ArrayList<>(1);
-      list.add(new ComponentB());
+      List<IComponent> list = new ArrayList<>();
+      list.add(new JsBridgeComponent());
+      list.add(new WebComponent());
       return list;
    }
 

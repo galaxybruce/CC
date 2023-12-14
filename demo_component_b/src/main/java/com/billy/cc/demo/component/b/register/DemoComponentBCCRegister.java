@@ -1,8 +1,8 @@
-package com.billy.cc.demo.register;
+package com.billy.cc.demo.component.b.register;
 
 import com.billy.cc.core.component.IComponent;
 import com.billy.cc.core.component.register.ICCRegister;
-import com.billy.cc.demo.lifecycle.LifecycleComponent;
+import com.billy.cc.demo.component.b.ComponentB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +14,12 @@ import java.util.List;
  * <p>
  * modification history:
  */
-public class DemoRegister implements ICCRegister {
+public class DemoComponentBCCRegister implements ICCRegister {
 
    @Override
    public List<IComponent> getComponents() {
       List<IComponent> list = new ArrayList<>(1);
-      list.add(new LifecycleComponent());
+      list.add(new ComponentB());
       return list;
    }
 

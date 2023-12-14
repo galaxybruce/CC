@@ -12,7 +12,7 @@ import com.billy.cc.demo.component.kt.KtComponent
  *
  * modification history:
  */
-class DemoComponentKtRegister : ICCRegister {
+class DemoComponentKtCCRegister : ICCRegister {
 
     override fun getComponents(): List<IComponent> {
         val list: MutableList<IComponent> = ArrayList()
